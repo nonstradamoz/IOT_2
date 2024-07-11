@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alert System: Dog's Temperature</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        input[type="text"], input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .dog-img {
+            max-width: 100px;
+            margin: 0 auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Alert System: Dog's Temperature</h1>
+    <img src="dog.svg" alt="Dog Illustration" class="dog-img">
+    <form id="temperatureForm">
+        <label for="recipient">Recipient's Phone Number:</label>
+        <input type="text" id="recipient" name="recipient" required><br><br>
+        <label for="temperature">Enter Dog's Temperature:</label>
+        <input type="number" id="temperature" name="temperature" required><br><br>
+        <button type="submit">Send Temperature</button>
+    </form>
+    <script>
+        document.getElementById('temperatureForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const recipient = document.getElementById('recipient').value;
+            const temperature = parseFloat(document.getElementById('temperature').value);
+            
+            // Simulate sending temperature data to the server (replace with actual API call)
+            fetch('/send-temperature', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ recipient, temperature }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.alert) {
+                    alert(`Alert: Dog's temperature is ${temperature}°C. Please check.`);
+                } else {
+                    alert('Temperature sent successfully!');
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Error sending temperature data.');
+            });
+        });
+    </script>
+</body>
+</html>
